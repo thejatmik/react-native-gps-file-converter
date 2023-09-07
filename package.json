@@ -1,6 +1,6 @@
 {
   "name": "react-native-gps-file-converter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "parse and export geojson object to gps file",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
