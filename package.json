@@ -1,6 +1,6 @@
 {
   "name": "react-native-gps-file-converter",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "lele",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
