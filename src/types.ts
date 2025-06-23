@@ -1,56 +1,56 @@
+import type { BBox } from 'geojson';
 // time format 2023-09-05T06:36:14.853Z
-type KMLCoordinate = [number, number, number?]; // lon, lat, ele
+export type KMLCoordinate = [number, number, number?]; // lon, lat, ele
 
-type GeojsonParseProperties =
-  | {
-      name: string;
-      description?: string;
-      time?: string;
-      bbox?: BBox;
-    } & Record<string, any>;
+export type GeojsonParseProperties = {
+  name: string;
+  description?: string;
+  time?: string;
+  bbox?: BBox;
+} & Record<string, any>;
 
-type GPXCoordinate = {
+export type GPXCoordinate = {
   '@_lat': number;
   '@_lon': number;
   'ele'?: number;
 };
 
 // {"@_lat": "18", "@_lon": "110", "name": "point1"}
-interface Waypoint extends GPXCoordinate {
+export interface Waypoint extends GPXCoordinate {
   // wpt
   name: string;
   desc?: string;
 }
-type GPXWaypoint = {
+export type GPXWaypoint = {
   wpt: Waypoint;
 };
-type ParsedWaypoint = {
+export type ParsedWaypoint = {
   wpt: Waypoint[] | Waypoint;
 };
 
-interface GPXTrackpoint extends GPXCoordinate {
+export interface GPXTrackpoint extends GPXCoordinate {
   // trkpt
   time?: string;
 }
-type GPXTrackSegment = { trkpt: GPXTrackpoint }[]; // trkseg
-type ParsedTrackSegment = {
+export type GPXTrackSegment = { trkpt: GPXTrackpoint }[]; // trkseg
+export type ParsedTrackSegment = {
   trkseg: {
     trkpt: GPXTrackpoint[] | GPXTrackpoint;
   };
 };
 
-type Track = {
-  // trk
+// trk
+export type Track = {
   trkseg: GPXTrackSegment;
 };
-type GPXTrack = {
+export type GPXTrack = {
   trk: Track;
 };
-type ParsedTrack = {
-  trk: ParsedTrackSegment[] | ParsedtrackSegment;
+export type ParsedTrack = {
+  trk: ParsedTrackSegment[] | ParsedTrackSegment;
 };
 
-type Metadata = {
+export type Metadata = {
   name: string;
   desc: string;
   author: {
@@ -69,11 +69,11 @@ type Metadata = {
     '@_maxlon': number;
   };
 };
-type GPXMetadata = {
+export type GPXMetadata = {
   metadata: Metadata;
 };
 
-type GPXHeader = {
+export type GPXHeader = {
   '@_creator': string;
   '@_version': string;
   '@_xmlns': string;

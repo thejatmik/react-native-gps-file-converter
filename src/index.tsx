@@ -5,33 +5,29 @@ import type {
   Point,
   Position,
 } from 'geojson';
-import { NativeModules, Platform } from 'react-native';
+import { lineString, point } from '@turf/helpers';
+
+import GpsFileConverter from './NativeGpsFileConverter';
+import { regexWpt, regexTrk, regexMetadata } from './regex';
+import type {
+  ParsedWaypoint,
+  Waypoint,
+  ParsedTrack,
+  ParsedTrackSegment,
+  GeojsonParseProperties,
+  GPXTrackpoint,
+  GPXWaypoint,
+  GPXMetadata,
+  Metadata,
+  GPXTrack,
+} from './types';
 import {
   FeatureXMLBuilder,
   CollectionXMLBuilder,
   FeatureXMLParser,
 } from './xml';
-import { regexWpt, regexTrk, regexMetadata } from './regex';
-import { lineString, point } from '@turf/helpers';
 
-const LINKING_ERROR =
-  `The package 'react-native-gps-file-converter' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-const GpsFileConverter = NativeModules.GpsFileConverter
-  ? NativeModules.GpsFileConverter
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
+export function multiply(a: number, b: number): number {
   return GpsFileConverter.multiply(a, b);
 }
 
@@ -57,7 +53,7 @@ export const gpxStringToFeatureCollection = (xml: string) => {
     const trkObject: ParsedTrack = FeatureXMLParser.parse(trkString);
     console.log(JSON.stringify(trkObject));
     if (trkObject.trk && Array.isArray(trkObject.trk) === false) {
-      trkObject.trk = [trkObject.trk];
+      trkObject.trk = [trkObject.trk] as ParsedTrackSegment[];
     }
     (trkObject.trk as ParsedTrackSegment[]).forEach((trk) => {
       const feature = trackToFeature(trk);
@@ -89,6 +85,7 @@ const waypointToFeature = (
   const feature = point(coordinates, properties);
   return feature;
 };
+
 const trackToFeature = (
   track: ParsedTrackSegment
 ): Feature<LineString, GeojsonParseProperties> => {
@@ -118,10 +115,6 @@ const trackToFeature = (
   const feature = lineString(coordinates, properties);
   return feature as Feature<LineString, GeojsonParseProperties>;
 };
-/*
-const metadataToGeojsonProperties = (metadataString: string) => {
-};
- */
 
 export const pointToWaypoint = (
   point_: Feature<Point, GeojsonParseProperties>

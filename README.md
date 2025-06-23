@@ -1,6 +1,6 @@
 # react-native-gps-file-converter
 
-parse and export geojson object to gps file
+lele
 
 ## Installation
 
@@ -10,13 +10,15 @@ npm install react-native-gps-file-converter
 
 ## Usage
 
+
 ```js
 import { multiply } from 'react-native-gps-file-converter';
 
 // ...
 
-const result = await multiply(3, 7);
+const result = multiply(3, 7);
 ```
+
 
 ## Contributing
 
